@@ -1,443 +1,336 @@
 <meta name='viewport' content='width=device-width, initial-scale=1'/><!DOCTYPE html>
-<html lang="es">
+<html lang="es"> 
 <head>
     <meta charset="UTF-8">
-    <title>Horror Analógico</title>
-    <link rel="icon" type="image/jpg" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeRhCxI4JAbzGByIx0AMAuDf6lyQRgk2ZDHqxcL4trBg&s=10">
-    <style>  
-        
-        body {
-            margin: 0;
-            font-family: 'Courier New', monospace;
-            background: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.8)),
-                        url("https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80") no-repeat center center fixed;
-            background-size: cover;
-            color: #c0c0c0;
-            position: relative;
-            overflow-x: hidden;
-        }
+    <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+    <title>Informe Proyecto Técnico: Analog Horror - Juan García</title> 
+    <link rel="icon" type="image/jpg" href="https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9G">
 
-        /* Efecto de estática */
-        body::before {
-            content: "";
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(0, 0, 0, 0.15) 0px,
-                rgba(0, 0, 0, 0.15) 1px,
-                transparent 1px,
-                transparent 2px
-            );
-            pointer-events: none;
-            z-index: 999;
-            opacity: 0.1;
-            animation: static 0.2s infinite;
-        }
-
-        @keyframes static {
-            0% { transform: translateY(0px); }
-            100% { transform: translateY(2px); }
-        }
-
-        h1 { 
-            color: #8b0000; 
-            text-align: center; 
-            text-shadow: 0 0 5px #ff0000, 0 0 10px #8b0000;
-            font-size: 2.5em;
-            letter-spacing: 3px;
-            margin-top: 20px;
-            animation: flicker 4s infinite alternate;
-        }
-
-        @keyframes flicker {
-            0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-                opacity: 1;
-            }
-            20%, 24%, 55% {
-                opacity: 0.7;
-            }
-        }
-
-        p { 
-            font-size: 16px; 
-            margin: 20px; 
-            padding: 15px; 
-            border: 1px solid #5a0000; 
-            background-color: rgba(10, 0, 0, 0.7);
-            box-shadow: 0 0 10px rgba(139, 0, 0, 0.5);
-            position: relative;
-            overflow: hidden;
-        }
-
-        p::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: -100%;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(255, 0, 0, 0.1),
-                transparent
-            );
-            animation: scan 8s linear infinite;
-        }
-
-        @keyframes scan {
-            0% { left: -100%; }
-            100% { left: 100%; }
-        }
-
-        ul { 
-            list-style-type: none; 
-            padding-left: 0;
-        }
-
-        li {
-            margin-bottom: 15px;
-            position: relative;
-            padding-left: 20px;
-        }
-
-        li::before {
-            content: "■";
-            color: #8b0000;
-            position: absolute;
-            left: 0;
-            animation: pulse 2s infinite;
-        }
-
-        @keyframes pulse {
-            0%, 100% { opacity: 1; }
-            50% { opacity: 0.3; }
-        }
-        
-        /* Estilos de pestañas */
-        .tab-container { 
-            display: flex; 
-            border-bottom: 2px solid #5a0000; 
-            margin-bottom: 20px; 
-            background-color: rgba(20, 0, 0, 0.8);
-            position: relative;
-            overflow: hidden;
-        }
-
-        .tab-container::before {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: linear-gradient(
-                90deg,
-                transparent,
-                rgba(139, 0, 0, 0.2),
-                transparent
-            );
-            animation: glitch 10s infinite;
-        }
-
-        @keyframes glitch {
-            0%, 100% { transform: translateX(0); }
-            10% { transform: translateX(-5px); }
-            20% { transform: translateX(5px); }
-            30% { transform: translateX(-5px); }
-            40% { transform: translateX(5px); }
-            50% { transform: translateX(0); }
-        }
-
-        .tab { 
-            flex: 1; 
-            padding: 12px; 
-            text-align: center; 
-            cursor: pointer; 
-            font-weight: bold;
-            color: #a0a0a0; 
-            border-bottom: 3px solid transparent; 
-            transition: 0.3s; 
-            position: relative;
-            z-index: 1;
-        }
-
-        .tab:hover { 
-            background-color: rgba(139, 0, 0, 0.3); 
-            color: #ff6b6b;
-        }
-
-        .tab.active { 
-            color: #ff0000; 
-            border-bottom: 3px solid #8b0000; 
-            text-shadow: 0 0 5px #ff0000;
-        }
-
-        /* Contenido de pestañas */
-        .tab-content { 
-            display: none; 
-            animation: fadeIn 0.5s; 
-            padding: 20px;
-            position: relative;
-        }
-
-        .tab-content::after {
-            content: "";
-            position: absolute;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: repeating-linear-gradient(
-                0deg,
-                rgba(139, 0, 0, 0.03) 0px,
-                rgba(139, 0, 0, 0.03) 1px,
-                transparent 1px,
-                transparent 3px
-            );
-            pointer-events: none;
-            z-index: -1;
-        }
-
-        .tab-content.active { 
-            display: block; 
-        }
-
-        @keyframes fadeIn {
-            from { opacity: 0; }
-            to { opacity: 1; }
-        }
-
-        button {
-            background-color: #300000;
-            color: #c0c0c0;
-            border: 1px solid #5a0000;
-            padding: 8px 15px;
-            cursor: pointer;
-            font-family: 'Courier New', monospace;
-            transition: all 0.3s;
-            margin-right: 10px;
-            position: relative;
-            overflow: hidden;
-        }
-
-        button:hover {
-            background-color: #5a0000;
-            color: #ff6b6b;
-            box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
-        }
-
-        button::after {
-            content: "";
-            position: absolute;
-            top: -50%;
-            left: -50%;
-            width: 200%;
-            height: 200%;
-            background: radial-gradient(
-                circle,
-                rgba(255, 0, 0, 0.2) 0%,
-                transparent 70%
-            );
-            transform: scale(0);
-            transition: transform 0.5s;
-        }
-
-        button:hover::after {
-            transform: scale(1);
-        }
-
-        a {
-            color: #ff6b6b;
-            text-decoration: none;
-            border-bottom: 1px dotted #5a0000;
-            transition: all 0.3s;
-        }
-
-        a:hover {
-            color: #ff0000;
-            text-shadow: 0 0 5px rgba(255, 0, 0, 0.7);
-            border-bottom: 1px dotted #ff0000;
-        }
-
-        /* Efecto de distorsión ocasional */
-        .glitch-effect {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: 
-            url("https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSeRhCxI4JAbzGByIx0AMAuDf6lyQRgk2ZDHqxcL4trBg&s=10");
-            pointer-events: none;
-            z-index: 9999;
-            opacity: 0;
-            animation: glitch-appear 15s infinite;
-            mix-blend-mode: overlay;
-        }
-
-        @keyframes glitch-appear {
-            0%, 95% { opacity: 0; }
-            96%, 98% { opacity: 0.3; }
-            97%, 99% { opacity: 0.1; }
-            100% { opacity: 0; }
-        }
-
-        /* Efecto de línea de escaneo */
-        .scan-line {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 5px;
-            background: linear-gradient(
-                to bottom,
-                transparent,
-                rgba(0, 255, 0, 0.2),
-                transparent
-            );
-            z-index: 999;
-            animation: scan-line 4s linear infinite;
-            pointer-events: none;
-        }
-
-        @keyframes scan-line {
-            0% { top: 0; }
-            100% { top: 100%; }
-        }
-    </style>
+    <link rel="stylesheet" href="style.css"> 
 </head>
 <body>
-    <div class="glitch-effect"></div>
-    <div class="scan-line"></div>
     
-    <h1> HORROR DEL ORDEN CRONO LOGICO ☠️</h1>
-    
-    <div class="tab-container">
-        <div class="tab active" onclick="openTab(event, 'tab1')">ARCHIVOS</div>
-        <div class="tab" onclick="openTab(event, 'tab2')">ENTIDADES</div>
-        <div class="tab" onclick="openTab(event, 'tab3')">EVIDENCIAS</div>
-        <div class="tab" onclick="openTab(event, 'tab4')">CONTACTO PELIGROSO</div> 
-    </div>
-    
-    <div id="tab1" class="tab-content active">
-        <ul>
-            <p>REGISTROS CLASIFICADOS</p>
-            <li>
-                <button onclick="alert('ADVERTENCIA: Los archivos que va a acceder pueden afectar su percepción de la realidad')">CONFIRMAR ACCESO</button>
-                <a href="https://creepypastaspain.com/" target="_blank">Archivo: Leyendas Urbanas Digitales</a>
-            </li>
-  
-            <p>Registros no clasificados</p>
-            <li>
-                <button onclick="alert('ADVERTENCIA: La entidad conocida como El Susurrador puede detectar su presencia')">CONFIRMAR ACCESO</button>
-                <a href="https://www.reddit.com/r/analoghorror/" target="_blank">Foro: Horror Analógico Internacional</a>
-            </li>
-  
-            <p>REGISTROS DE ACTIVIDAD DE MALWARE</p>
-            <li>
-                <button onclick="alert('ADVERTENCIA: Este material ha sido reportado como cognitivamente peligroso')">CONFIRMAR ACCESO</button>
-                <a href="https://the-night-time.net/" target="_blank">Documento: Fenómeno de estática consciente</a>
-            </li>
-        </ul>
-    </div>
+    <header>
+        <h1>Informe del Proyecto Técnico: Analog Horror - Juan García</h1>
+        <p>Este informe documenta la creación de una página web dedicada al género "Analog Horror", cumpliendo con los requisitos de estructura, diseño, usabilidad, accesibilidad y aspectos técnicos avanzados definidos para el taller.</p>
+    </header>
 
-    <div id="tab2" class="tab-content">
-        <h2>CATÁLOGO DE SCRIPS Y HACKS</h2>
+    <nav>
         <ul>
-            <p>EL ROSTRO QUE JAMAS SE REVELA </p>
-            <li>
-                <button onclick="alert('ADVERTENCIA: Esta entidad se manifiesta a través de dispositivos analógicos')">CONFIRMAR ACCESO</button>
-                <a href="https://scp-wiki.wikidot.com/" target="_blank">Perfil: Aparece en transmisiones interrumpidas</a>
-            </li>
- 
-            <p>THE MAGO BLACK PIRATE INFORMATIC</p>
-            <li>
-                <button onclick="alert('ADVERTENCIA: Esta entidad puede reconocer cuando es observada')">CONFIRMAR ACCESO</button>
-                <a href="https://www.theblacktapespodcast.com/" target="_blank">Perfil: Se comunica a través de ruido blanco</a>
-            </li>
+            <li><a href="#datos-iniciales">1. Datos Iniciales</a></li>
+            <li><a href="#estructura">2. Estructura y Contenido</a></li>
+            <li><a href="#diseno">3. Diseño y Estilo (CSS)</a></li>
+            <li><a href="#accesibilidad">4. Usabilidad y Accesibilidad</a></li>
+            <li><a href="#aspectos-tecnicos">5. Aspectos Técnicos</a></li>
+            <li><a href="#proceso-construccion">6. Proceso de Construcción</a></li>
+            <li><a href="#conclusion">7. Conclusión</a></li>
+        </ul>
+    </nav>
+
+    <main>
+        <section id="datos-iniciales">
+            <h2>1. Datos iniciales</h2>
+            <p><strong>Nombre del estudiante:</strong> Juan García</p>
+            <p><strong>Título del proyecto:</strong> Página Web sobre Analog Horror (Informe Técnico)</p>
+            <p><strong>Propósito:</strong> Explorar el fenómeno del "Analog Horror" (terror de baja fidelidad), destacando su impacto cultural y analizando sus elementos narrativos clave. Es una demostración de la aplicación de estándares web.</p>
+        </section>
+
+        <section id="estructura">
+            <h2>2. Estructura y Contenido</h2>
+            <p>La estructura del sitio es semántica, utilizando etiquetas clave de HTML5 para una lectura óptima por máquinas y lectores de pantalla.</p>
+            <ul>
+                <li><strong>Etiquetas Semánticas:</strong> Uso de <code>&lt;header&gt;</code>, <code>&lt;nav&gt;</code>, <code>&lt;main&gt;</code>, <code>&lt;section&gt;</code>, y <code>&lt;footer&gt;</code>.</li>
+                <li><strong>Contenido:</strong> Se incluye texto relevante sobre el origen del género, y se utilizan listas (<code>&lt;ul&gt;</code>) y párrafos (<code>&lt;p&gt;</code>) para organizar la información.</li>
+            </ul>
             
-            <p>ANONIMUS HACKER DESDE LAS SOMBRAS</p>
-            <li>
-                <button onclick="alert('ADVERTENCIA: Estas entidades buscan replicarse a través de medios visuales')">CONFIRMAR ACCESO</button>
-                <a href="https://local58.tv/" target="_blank">Perfil: Aparecen en grabaciones deterioradas</a>
-            </li>
-        </ul>
-    </div>
-    
-    <div id="tab3" class="tab-content">
-        <h2>EVIDENCIAS VISUALES DE LO QUE HAS ECHO EN NUESTRO SERVIDOR</h2>
-        <p>ADVERTENCIA: Las siguientes imágenes pueden contener información perturbadora que afecta la percepción.</p>
-        <p>Fotografías analógicas recuperadas de ubicaciones con actividad en tu ubicacion en tiempo real confirmada.</p>
-        <p>Se recomienda discreción al visualizar este material.</p>
-        <ul>
-            <li><a href="https://unsplash.com/s/photos/creepy-vhs" target="_blank">➤ Galería: Imágenes de estática anómala</a></li>
-            <li><a href="https://www.youtube.com/c/local58" target="_blank">➤ Archivo: Transmisiones perturbadas</a></li>
-            <li><a href="https://archive.org/details/oldtimeradio" target="_blank">➤ Colección: Grabaciones de audio paranormal</a></li>
-        </ul>
-    </div>
+            <h3>Ejemplo de Contenido (Texto e Imágenes)</h3>
+            <p>El Analog Horror aprovecha la nostalgia y el miedo a la pérdida de control en los medios antiguos, usando fallos en la imagen (glitches) y mensajes ambiguos para generar pánico.</p>
+            <img src="imagenes/tv_estatica.jpg" alt="Pantalla de televisión antigua con estática roja y blanca" style="width: 100%; max-width: 400px; border: 2px solid #8b0000;">
+            <p>Enlace externo de referencia: <a href="https://ejemplo.com/analog-horror-analisis" target="_blank">Análisis del Analog Horror</a></p>
+        </section>
 
-    <div id="tab4" class="tab-content">
-        <h2>LA PUNTA DEL AISVERD</h2>
-        <p>ADVERTENCIA: El contacto con estas fuentes puede resultar en exposición a entidades no identificadas.</p>
-        <ul>
-            <li>Frecuencia de radio: 66.6 MHz (solo activa entre 3:00-3:33 AM)</li>
-            <li>Buzón de voz: ***-***-1919 (no responder a mensajes con estática)</li>
-            <li>Coordenadas: 40°42'46.5"N 74°00'21.5"W (acceso restringido)</li>
-            <li><a href="https://www.reddit.com/r/analoghorror/" target="_blank">Foro de Investigadores</a></li>
-            <li><a href="https://discord.gg/analoghorror" target="_blank">Canal de Comunicación Segura</a></li>
-        </ul>
-        <p style="color: #8b0000; text-align: center; margin-top: 30px;">RECUERDE: USTED HA ACCEDIDO VOLUNTARIAMENTE A ESTE ARCHIVO</p>
-    </div>
+        <section id="diseno">
+            <h2>3. Diseño y Estilo (CSS)</h2>
+            <p>El diseño se basó en los principios de estética retro-digital (CRT y VHS) y la necesidad de accesibilidad (contraste). El código CSS se encuentra en el archivo <code>style.css</code>.</p>
+            <ul>
+                <li><strong>Paleta de Colores:</strong> Uso de <code>#1a1a1a</code> (Fondo Oscuro), <code>#f4f4f4</code> (Fondos de Bloque), y <code>#8b0000</code> (Rojo oscuro para acentos de Terror).</li>
+                <li><strong>Tipografía:</strong> 'VT323' (estilo retro/terminal) para títulos y 'Arial' o 'Verdana' para el cuerpo (Requisito: Tipografía legible).</li>
+            </ul>
+        </section>
 
-    <script>
-        function openTab(evt, tabId) {
-            // Ocultar todos los contenidos
-            const contents = document.querySelectorAll('.tab-content');
-            contents.forEach(c => c.classList.remove('active'));
-            // Quitar "active" de todas las pestañas
-            const tabs = document.querySelectorAll('.tab');
-            tabs.forEach(t => t.classList.remove('active'));
-            // Mostrar el contenido seleccionado
-            document.getElementById(tabId).classList.add('active');
-            // Activar la pestaña clicada
-            evt.currentTarget.classList.add('active');
+        <section id="accesibilidad">
+            <h2>4. Usabilidad y Accesibilidad</h2>
+            <p>Se priorizó la experiencia de usuario y el cumplimiento de estándares de accesibilidad.</p>
+            <ul>
+                <li><strong>Contraste Adecuado:</strong> Se garantiza el contraste para lectura (Requisito: Contraste).</li>
+                <li><strong>Texto Alternativo:</strong> Todas las etiquetas <code>&lt;img&gt;</code> incluyen un atributo <code>alt</code> descriptivo (Requisito: Texto alternativo).</li>
+                <li><strong>Tamaño de Fuente:</strong> Se usa `rem` o porcentajes en CSS para que el texto sea escalable (Requisito: Tamaños de fuente).</li>
+            </ul>
+        </section>
+
+        <section id="aspectos-tecnicos">
+            <h2>5. Aspectos Técnicos</h2>
+            <p>El proyecto se construyó bajo las mejores prácticas de ingeniería de software.</p>
+            <ul>
+                <li><strong>Tecnologías Usadas:</strong> HTML5, CSS3 y JavaScript (Funcionalidad).</li>
+                <li><strong>Separación de Capas:</strong> Uso de archivos <code>style.css</code> y <code>script.js</code> externos para una mayor mantenibilidad.</li>
+            </ul>
+            <h3>Fragmento de Funcionalidad JavaScript</h3>
+            <p>Se implementó un script que añade un efecto de "glitch" visual a un elemento al pasar el ratón, mejorando la inmersión en el tema Analog Horror.</p>
+            <pre><code>
+// Ejemplo de JavaScript en script.js
+document.getElementById('glitch-box').addEventListener('mouseover', function() {
+    this.classList.add('active-glitch');
+});
+            </code></pre>
+            <button id="glitch-box" style="padding: 10px; background-color: red; color: white; border: none;">Efecto Glitch Demo</button>
+        </section>
+
+        <section id="proceso-construccion">
+            <h2>6. Proceso de Construcción</h2>
+            <ol>
+                <li><strong>Conceptualización:</strong> Definición de la temática y paleta de colores.</li>
+                <li><strong>Estructuración:</strong> Creación del HTML semántico.</li>
+                <li><strong>Diseño Visual:</strong> Implementación del CSS para diseño de la interfaz y responsividad.</li>
+                <li><strong>Pruebas y Funcionalidad:</strong> Implementación de JavaScript y verificación de la accesibilidad.</li>
+            </ol>
             
-            // Efecto de sonido simulado (podría agregarse un sonido real)
-            try {
-                // Simular Dies clic de estática
-                const audioContext = new (window.AudioContext || window.webkitAudioContext)();
-                const oscillator = audioContext.createOscillator();
-                const gainNode = audioContext.createGain();
-                
-                oscillator.connect(gainNode);
-                gainNode.connect(audioContext.destination);
-                
-                oscillator.type = 'square';
-                oscillator.frequency.setValueAtTime(100, audioContext.currentTime);
-                gainNode.gain.setValueAtTime(0.1, audioContext.currentTime);
-                gainNode.gain.exponentialRampToValueAtTime(0.001, audioContext.currentTime + 0.1);
-                
-                oscillator.start(audioContext.currentTime);
-                oscillator.stop(audioContext.currentTime + 0.1);
-            } catch(e) {
-                // Fallback silencioso si el audio no está disponible
-            }
-        }
-        
-        // Efecto de distorsión aleatoria
-        setInterval(() => {
-            if (Math.random() < 0.1) {
-                document.querySelector('.glitch-effect').style.animation = 'none';
-                setTimeout(() => {
-                    document.querySelector('.glitch-effect').style.animation = 'glitch-appear 15s infinite';
-                }, 10);
-            }
-        }, 3000);
-    </script>
+            <h3>Dificultades y Resoluciones</h3>
+            <p><strong>Dificultad:</strong> Asegurar que la estética de baja fidelidad no comprometiera el **Contraste** y la **Accesibilidad** del texto.</p>
+            <p><strong>Resolución:</strong> Se usaron bloques de contenido en color claro sobre el fondo oscuro, manteniendo un contraste óptimo.</p>
+        </section>
+
+        <section id="conclusion">
+            <h2>7. Conclusión</h2>
+            <p><strong>Aprendizajes Clave:</strong> Se reforzó la comprensión de que la estructura semántica (HTML) es la base de la accesibilidad, y que la modularidad (CSS/JS externo) es vital para la mantenibilidad.</p>
+            <h3>Mejoras Futuras</h3>
+            <p>Se planea integrar WebGL para crear efectos visuales de distorsión más realistas.</p>
+        </section>
+    </main>
+
+    <footer>
+        <p>&copy; 2025 Juan García. Todos los derechos reservados.</p>
+        <p>Contacto: juaneloscurogarcia@gmail.com</p>
+    </footer>
+
+    <script src="script.js"></script>
 </body>
 </html>
+<style>/* Estilos base del informe */
+body {
+    font-family: 'Courier New', monospace; /* Tipografía legible pero con estética de terminal */
+    line-height: 1.6;
+    color: #c0c0c0; /* Color claro para contraste */
+    background: linear-gradient(rgba(10,10,10,0.8), rgba(10,10,10,0.8)),
+                url("https://images.unsplash.com/photo-1518709268805-4e9042af2176?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80") no-repeat center center fixed;
+    background-size: cover;
+    margin: 0;
+    padding: 20px;
+    position: relative;
+    overflow-x: hidden;
+}
+
+h1, h2, h3 {
+    color: #ff4500; /* Color de acento para la estética de Horror */
+    text-shadow: 0 0 5px #ff0000, 0 0 10px #8b0000;
+}
+
+section {
+    margin-bottom: 25px;
+    padding: 20px;
+    background-color: rgba(10, 0, 0, 0.7); /* Fondo oscuro con transparencia */
+    border-radius: 10px;
+    border: 1px solid #5a0000;
+    box-shadow: 0 0 10px rgba(139, 0, 0, 0.5); /* Efecto de brillo retro */
+}
+
+/* Estilos de navegación y enlaces */
+nav a {
+    padding: 10px 15px;
+    text-decoration: none;
+    color: #a0a0a0;
+    background-color: #300000;
+    border: 1px solid #5a0000;
+    border-radius: 5px;
+    margin-right: 10px;
+    transition: all 0.3s;
+}
+
+nav a:hover { 
+    background-color: #5a0000; 
+    color: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+pre {
+    background-color: #333;
+    color: #00ff00; /* Color de código de terminal */
+    padding: 10px;
+    overflow-x: auto;
+    border: 1px dashed #008000;
+}
+
+p {
+    margin: 20px 0;
+}
+
+ul { 
+    list-style-type: none; 
+    padding-left: 0;
+}
+
+li {
+    margin-bottom: 15px;
+    position: relative;
+    padding-left: 20px;
+}
+
+li::before {
+    content: "■";
+    color: #8b0000;
+    position: absolute;
+    left: 0;
+    animation: pulse 2s infinite;
+}
+
+@keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+}
+
+/* Estilo para los botones */
+button {
+    background-color: #300000;
+    color: #c0c0c0;
+    border: 1px solid #5a0000;
+    padding: 8px 15px;
+    cursor: pointer;
+    font-family: 'Courier New', monospace;
+    transition: all 0.3s;
+    margin-right: 10px;
+    position: relative;
+    overflow: hidden;
+}
+
+button:hover {
+    background-color: #5a0000;
+    color: #ff6b6b;
+    box-shadow: 0 0 10px rgba(255, 0, 0, 0.5);
+}
+
+/* Efecto de estática general */
+body::before {
+    content: "";
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background: repeating-linear-gradient(
+        0deg,
+        rgba(0, 0, 0, 0.15) 0px,
+        rgba(0, 0, 0, 0.15) 1px,
+        transparent 1px,
+        transparent 2px
+    );
+    pointer-events: none;
+    z-index: 999;
+    opacity: 0.1;
+    animation: static 0.2s infinite;
+}
+
+@keyframes static {
+    0% { transform: translateY(0px); }
+    100% { transform: translateY(2px); }
+}
+
+/* Efecto de línea de escaneo */
+.scan-line {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 5px;
+    background: linear-gradient(
+        to bottom,
+        transparent,
+        rgba(0, 255, 0, 0.2),
+        transparent
+    );
+    z-index: 999;
+    animation: scan-line 4s linear infinite;
+    pointer-events: none;
+}
+
+@keyframes scan-line {
+    0% { top: 0; }
+    100% { top: 100%; }
+}
+
+/* Efecto de distorsión ocasional */
+.glitch-effect {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    /* La imagen de fondo aquí será la estática de glitch */
+    pointer-events: none;
+    z-index: 9999;
+    opacity: 0;
+    animation: glitch-appear 15s infinite;
+    mix-blend-mode: overlay;
+}
+
+@keyframes glitch-appear {
+    0%, 95% { opacity: 0; }
+    96%, 98% { opacity: 0.3; }
+    97%, 99% { opacity: 0.1; }
+    100% { opacity: 0; }
+}
+
+/* Estilos para el texto de advertencia (si lo necesitas) */
+.warning {
+    color: #ff0000;
+    text-shadow: 0 0 3px #ff0000;
+    animation: flicker 4s infinite alternate;
+}
+
+@keyframes flicker {
+    0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+    }
+    20%, 24%, 55% {
+        opacity: 0.7;
+    }
+}
+</style><script>// Función para el sistema de pestañas (Ejemplo de JS funcional)
+function openTab(evt, tabName) {
+    var i, tabcontent, tablinks;
+    tabcontent = document.getElementsByClassName("tab-content");
+    for (i = 0; i < tabcontent.length; i++) {
+        tabcontent[i].style.display = "none";
+    }
+    tablinks = document.getElementsByClassName("tab");
+    for (i = 0; i < tablinks.length; i++) {
+        tablinks[i].className = tablinks[i].className.replace(" active", "");
+    }
+    document.getElementById(tabName).style.display = "block";
+    evt.currentTarget.className += " active";
+}
+
+// Inicializar y vincular el botón de ejemplo 'glitch-box' de la sección 5
+document.addEventListener('DOMContentLoaded', (event) => {
+    const glitchBox = document.getElementById('glitch-box');
+    
+    if (glitchBox) {
+        // Vinculación de la clase 'active-glitch' al pasar el mouse
+        glitchBox.addEventListener('mouseover', function() {
+            this.classList.add('active-glitch');
+        });
+        glitchBox.addEventListener('mouseout', function() {
+            this.classList.remove('active-glitch');
+        });
+    }
+});
+</script>
